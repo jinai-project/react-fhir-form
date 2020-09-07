@@ -6,7 +6,7 @@ module.exports = {
     properties: {
       title: {
         type: "string",
-        title: "Task list title",
+        title: "Task list title"
       },
       tasks: {
         type: "array",
@@ -18,37 +18,36 @@ module.exports = {
             title: {
               type: "string",
               title: "Title",
-              description: "A sample title",
+              description: "A sample title"
             },
             details: {
               type: "string",
               title: "Task details",
-              description: "Enter the task details",
+              description: "Enter the task details"
             },
             done: {
               type: "boolean",
               title: "Done?",
-              default: false,
-            },
-          },
-        },
-      },
-    },
+              default: false
+            }
+          }
+        }
+      }
+    }
   },
   uiSchema: {
     "ui:options": {
-      "foldable": true
+      foldable: true
     },
     tasks: {
       items: {
         details: {
-          "ui:widget": "textarea",
-        },
-      },
-    },
+          "ui:widget": "textarea"
+        }
+      }
+    }
   },
   formData: {
-    title: "My current tasks",
-    
-  },
+    title: "My current tasks"
+  }
 };

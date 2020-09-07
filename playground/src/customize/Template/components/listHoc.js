@@ -3,17 +3,17 @@
  * listItemHoc
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   SortableContainer,
   SortableHandle,
   SortableElement,
-  arrayMove,
-} from 'react-sortable-hoc';
-import { isFunction, evaluateString } from '../base/utils';
-import FoldIcon from './foldIcon';
-import { DescriptionList, getDescription } from './descList';
+  arrayMove
+} from "react-sortable-hoc";
+import { isFunction, evaluateString } from "../base/utils";
+import FoldIcon from "./foldIcon";
+import { DescriptionList, getDescription } from "./descList";
 
 const DragHandle = SortableHandle(() => (
   <span className="fr-move-icon">:::</span>
@@ -27,7 +27,7 @@ const listItemHoc = ButtonComponent =>
       const description = getDescription({
         schema: p.schema,
         value: p.value,
-        index: name,
+        index: name
       });
       // if first value is not null we fold
       // new value is 0, unfold
@@ -59,21 +59,21 @@ const listItemHoc = ButtonComponent =>
       let _isFunction = isFunction(removable);
       if (_isFunction) {
         // isFunction returns true because of string | Function
-        if (typeof _isFunction === 'string') {
+        if (typeof _isFunction === "string") {
           removable = evaluateString(_isFunction, formData, rootValue);
-        } else if (typeof _isFunction === 'function') {
+        } else if (typeof _isFunction === "function") {
           removable = _isFunction(formData, rootValue);
         }
       }
 
       // only if items is object we do fold
-      const isObj = p.schema.items && p.schema.items.type == 'object';
+      const isObj = p.schema.items && p.schema.items.type == "object";
       let setClass =
-        'fr-set ba b--black-10 hover-b--black-20 relative flex flex-column';
+        "fr-set ba b--black-10 hover-b--black-20 relative flex flex-column";
       if (canFold && fold) {
-        setClass += ' pv12';
-      } else if (p.displayType === 'row') {
-        setClass += ' pt44';
+        setClass += " pv12";
+      } else if (p.displayType === "row") {
+        setClass += " pt44";
       }
 
       return (
@@ -86,9 +86,9 @@ const listItemHoc = ButtonComponent =>
                 paddingRight: 6,
                 borderBottomRightRadius: 8,
                 borderTopLeftRadius: 3,
-                backgroundColor: 'rgba(0, 0, 0, .36)',
+                backgroundColor: "rgba(0, 0, 0, .36)",
                 fontSize: 8,
-                color: '#fff',
+                color: "#fff"
               }}
             >
               {name + 1}
@@ -100,7 +100,7 @@ const listItemHoc = ButtonComponent =>
             <FoldIcon
               fold={fold}
               onClick={this.toggleFold}
-              style={{ position: 'absolute', top: 12, right: 32 }}
+              style={{ position: "absolute", top: 12, right: 32 }}
             />
           )}
           {!readonly && orderable && <DragHandle />}
@@ -124,13 +124,13 @@ const listItemHoc = ButtonComponent =>
                       icon={btn.icon}
                       onClick={() => {
                         const value = [...p.value];
-                        if (typeof window[btn.callback] === 'function') {
+                        if (typeof window[btn.callback] === "function") {
                           const result = window[btn.callback](value, name); // eslint-disable-line
                           p.onChange(p.idSchema, result);
                         }
                       }}
                     >
-                      {btn.text || ''}
+                      {btn.text || ""}
                     </ButtonComponent>
                   );
                 })}
@@ -167,7 +167,7 @@ const fieldListHoc = ButtonComponent => {
       let { addable = true } = options;
       const list = p.value || [];
       if (!Array.isArray(list)) {
-        console.error(`"${p.name}"\'s schema is wrong, please check`);
+        console.error(`"${p.name}"'s schema is wrong, please check`);
         return null;
       }
       const canAdd = maxItems ? maxItems > list.length : true; // hide add button when we reach max
@@ -188,7 +188,7 @@ const fieldListHoc = ButtonComponent => {
                   const value = [...p.value];
                   value[key] = val;
                   p.onChange(p.idSchema, value);
-                },
+                }
               })}
             />
           ))}
@@ -209,11 +209,11 @@ const fieldListHoc = ButtonComponent => {
                       icon={icon}
                       key={i.toString()}
                       onClick={() => {
-                        if (callback === 'clearAll') {
+                        if (callback === "clearAll") {
                           p.onChange(p.idSchema, []);
                           return;
                         }
-                        if (callback === 'copyLast') {
+                        if (callback === "copyLast") {
                           const value = [...p.value];
                           const lastIndex = value.length - 1;
                           value.push(
@@ -222,9 +222,10 @@ const fieldListHoc = ButtonComponent => {
                           p.onChange(p.idSchema, value);
                           return;
                         }
-                        if (typeof window[callback] === 'function') {
+                        if (typeof window[callback] === "function") {
                           const value = [...p.value];
-                          const onChange = value => p.onChange(p.idSchema, value);
+                          const onChange = value =>
+                            p.onChange(p.idSchema, value);
                           window[callback](value, onChange, schema, p.newItem); // eslint-disable-line
                         }
                       }}
@@ -246,11 +247,11 @@ export default function listHoc(ButtonComponent) {
   const SortableList = SortableContainer(fieldListHoc(ButtonComponent));
   return class extends React.Component {
     static propTypes = {
-      value: PropTypes.array,
+      value: PropTypes.array
     };
 
     static defaultProps = {
-      value: [],
+      value: []
     };
 
     constructor(props) {
@@ -258,21 +259,21 @@ export default function listHoc(ButtonComponent) {
 
       const len = this.props.value.length || 0;
       this.state = {
-        foldList: new Array(len).fill(false) || [],
+        foldList: new Array(len).fill(false) || []
       };
     }
 
     // new item defaults to unfold
     addUnfoldItem = () =>
       this.setState({
-        foldList: [...this.state.foldList, 0],
+        foldList: [...this.state.foldList, 0]
       });
 
     toggleFoldItem = index => {
       const { foldList = [] } = this.state;
       foldList[index] = !foldList[index]; // TODO: need better solution for the weird behavior caused by setState being async
       this.setState({
-        foldList,
+        foldList
       });
     };
 
@@ -280,7 +281,7 @@ export default function listHoc(ButtonComponent) {
       const { onChange, idSchema, value } = this.props;
       onChange(idSchema, arrayMove(value, oldIndex, newIndex));
       this.setState({
-        foldList: arrayMove(this.state.foldList, oldIndex, newIndex),
+        foldList: arrayMove(this.state.foldList, oldIndex, newIndex)
       });
     };
 
@@ -296,7 +297,7 @@ export default function listHoc(ButtonComponent) {
           useDragHandle
           helperClass="fr-sort-help-class"
           shouldCancelStart={e =>
-            e.toElement && e.toElement.className === 'fr-tooltip-container'
+            e.toElement && e.toElement.className === "fr-tooltip-container"
           }
           onSortEnd={this.handleSort}
         />

@@ -325,4 +325,4 @@ export default `
 .fr-wrapper .next-checkbox-wrapper {
   margin: 4px 8px 4px 0;
 }
-`
+`;

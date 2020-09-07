@@ -1,10 +1,10 @@
-import React from 'react';
-import { isHidden } from '../base/isHidden';
-import { isFunction } from '../base/utils';
+import React from "react";
+import { isHidden } from "../base/isHidden";
+import { isFunction } from "../base/utils";
 
 const getEnumValue = (value, enums, enumNames) => {
   if (Array.isArray(enums) && Array.isArray(enumNames)) {
-    if (typeof value === 'string' || typeof value === 'number') {
+    if (typeof value === "string" || typeof value === "number") {
       const count = enums.indexOf(value);
       if (count > -1) {
         return enumNames[count];
@@ -29,7 +29,7 @@ export const DescriptionList = ({ schema = {}, value = [], index }) => {
         return item.title ? (
           <li
             className="overflow-hidden truncate"
-            style={{ width: '33%', paddingRight: 8 }}
+            style={{ width: "33%", paddingRight: 8 }}
             key={i}
           >
             <span className="fw5">{item.title}: </span>
@@ -45,7 +45,7 @@ export const DescriptionList = ({ schema = {}, value = [], index }) => {
 export const getDescription = ({ schema = {}, value = [], index }) => {
   const { items = {} } = schema;
   // only when items is object we do fold
-  if (items.type !== 'object') {
+  if (items.type !== "object") {
     return [];
   }
   let titles = (items && items.properties) || {};
@@ -53,26 +53,28 @@ export const getDescription = ({ schema = {}, value = [], index }) => {
   let description = (value && value.length && value[index]) || {};
   const valueList = Object.values(description);
   const descList = titles.map((t, idx) => {
-    let hidden = t && t['ui:hidden'];
+    let hidden = t && t["ui:hidden"];
 
-    if (typeof hidden === 'string' && isFunction(hidden) === false) {
+    if (typeof hidden === "string" && isFunction(hidden) === false) {
       hidden = isHidden({ hidden, rootValue: description });
     }
-    if (hidden) return;
+    if (hidden) {
+      return;
+    }
     const title = t.title;
     let text = valueList[idx];
     if (text === null && text === undefined) {
-      text = '';
-    } else if (typeof text === 'boolean') {
-      text = text ? 'Yes' : 'No';
-    } else if (typeof text !== 'string' && typeof text !== 'number' && text) {
-      text = '{Structure}';
+      text = "";
+    } else if (typeof text === "boolean") {
+      text = text ? "Yes" : "No";
+    } else if (typeof text !== "string" && typeof text !== "number" && text) {
+      text = "{Structure}";
     } else if (t.enum && t.enumNames) {
       text = getEnumValue(text, t.enum, t.enumNames);
     }
     return {
       title,
-      text,
+      text
     };
   });
   // remove null
@@ -80,7 +82,6 @@ export const getDescription = ({ schema = {}, value = [], index }) => {
 };
 
 export const ObjDescriptionList = ({ schema = {}, value = {} }) => {
-
   const list = getObjDescription({ schema, value })
     .filter(item => item.title)
     .slice(0, 3);
@@ -90,7 +91,7 @@ export const ObjDescriptionList = ({ schema = {}, value = {} }) => {
         return item.title ? (
           <li
             className="overflow-hidden truncate"
-            style={{ width: '33%', paddingRight: 8 }}
+            style={{ width: "33%", paddingRight: 8 }}
             key={i}
           >
             <span className="fw5">{item.title}: </span>
@@ -103,7 +104,6 @@ export const ObjDescriptionList = ({ schema = {}, value = {} }) => {
 };
 
 export const getObjDescription = ({ schema = {}, value = {} }) => {
-
   let titles = (schema && schema.properties) || {};
 
   if (value === null) {
@@ -111,27 +111,29 @@ export const getObjDescription = ({ schema = {}, value = {} }) => {
   }
 
   const descList = Object.keys(titles).map(k => {
-    let t = titles[k]
-    let hidden = t && t['ui:hidden'];
+    let t = titles[k];
+    let hidden = t && t["ui:hidden"];
     // TODO: move outside
-    if (typeof hidden === 'string' && isFunction(hidden) === false) {
+    if (typeof hidden === "string" && isFunction(hidden) === false) {
       hidden = isHidden({ hidden, rootValue: value });
     }
-    if (hidden) return;
+    if (hidden) {
+      return;
+    }
     const title = t.title || k;
     let text = value[k];
     if (text === null || text === undefined) {
-      text = '';
-    } else if (typeof text === 'boolean') {
-      text = text ? 'Yes' : 'No';
-    } else if (typeof text !== 'string' && typeof text !== 'number' && text) {
-      text = '{Structure}';
+      text = "";
+    } else if (typeof text === "boolean") {
+      text = text ? "Yes" : "No";
+    } else if (typeof text !== "string" && typeof text !== "number" && text) {
+      text = "{Structure}";
     } else if (t.enum && t.enumNames) {
       text = getEnumValue(text, t.enum, t.enumNames);
     }
     return {
       title,
-      text,
+      text
     };
   });
   // remove null

@@ -14,42 +14,62 @@ export function clone(data) {
 
 // '3' => true, 3 => true, undefined => false
 export function isLooselyNumber(num) {
-  if (typeof num === 'number') return true;
-  if (typeof num === 'string') {
+  if (typeof num === "number") {
+    return true;
+  }
+  if (typeof num === "string") {
     return !Number.isNaN(Number(num));
   }
   return false;
 }
 
 export function isCssLength(str) {
-  if (typeof str !== 'string') return false;
+  if (typeof str !== "string") {
+    return false;
+  }
   return str.match(/^([0-9])*(%|px|rem|em)$/i);
 }
 
 export function isDeepEqual(param1, param2) {
-  if (param1 === undefined && param2 === undefined) return true;
-  else if (param1 === undefined || param2 === undefined) return false;
-  else if (param1.constructor !== param2.constructor) return false;
+  if (param1 === undefined && param2 === undefined) {
+    return true;
+  } else if (param1 === undefined || param2 === undefined) {
+    return false;
+  } else if (param1.constructor !== param2.constructor) {
+    return false;
+  }
 
   if (param1.constructor === Array) {
-    if (param1.length !== param2.length) return false;
+    if (param1.length !== param2.length) {
+      return false;
+    }
     for (let i = 0; i < param1.length; i++) {
       if (param1[i].constructor === Array || param1[i].constructor === Object) {
-        if (!isDeepEqual(param1[i], param2[i])) return false;
-      } else if (param1[i] !== param2[i]) return false;
+        if (!isDeepEqual(param1[i], param2[i])) {
+          return false;
+        }
+      } else if (param1[i] !== param2[i]) {
+        return false;
+      }
     }
   } else if (param1.constructor === Object) {
-    if (Object.keys(param1).length !== Object.keys(param2).length) return false;
+    if (Object.keys(param1).length !== Object.keys(param2).length) {
+      return false;
+    }
     for (let i = 0; i < Object.keys(param1).length; i++) {
       const key = Object.keys(param1)[i];
       if (
         param1[key] &&
-        typeof param1[key] !== 'number' &&
+        typeof param1[key] !== "number" &&
         (param1[key].constructor === Array ||
           param1[key].constructor === Object)
       ) {
-        if (!isDeepEqual(param1[key], param2[key])) return false;
-      } else if (param1[key] !== param2[key]) return false;
+        if (!isDeepEqual(param1[key], param2[key])) {
+          return false;
+        }
+      } else if (param1[key] !== param2[key]) {
+        return false;
+      }
     }
   } else if (param1.constructor === String || param1.constructor === Number) {
     return param1 === param2;
@@ -60,18 +80,18 @@ export function isDeepEqual(param1, param2) {
 export function getFormat(format) {
   let dateFormat;
   switch (format) {
-    case 'date':
-      dateFormat = 'YYYY-MM-DD';
+    case "date":
+      dateFormat = "YYYY-MM-DD";
       break;
-    case 'time':
-      dateFormat = 'HH:mm:ss';
+    case "time":
+      dateFormat = "HH:mm:ss";
       break;
-    case 'dateTime':
-      dateFormat = 'YYYY-MM-DD HH:mm:ss';
+    case "dateTime":
+      dateFormat = "YYYY-MM-DD HH:mm:ss";
       break;
     default:
-      dateFormat = 'YYYY-MM-DD';
-      if (format && typeof format === 'string') {
+      dateFormat = "YYYY-MM-DD";
+      if (format && typeof format === "string") {
         dateFormat = format;
       }
   }
@@ -93,8 +113,8 @@ export function combineSchema(propsSchema, uiSchema) {
   const newList = propList.map(p => {
     const { name } = p;
     const { type, enum: options, properties, items } = p.schema;
-    const isObj = type === 'object' && properties;
-    const isArr = type === 'array' && items && !options; // enum + array means multiselect, has no sub
+    const isObj = type === "object" && properties;
+    const isArr = type === "array" && items && !options; // enum + array means multiselect, has no sub
     const ui = name && uiSchema[p.name];
     if (!ui) {
       return p;
@@ -119,7 +139,7 @@ export function combineSchema(propsSchema, uiSchema) {
 
   const topLevelUi = {};
   Object.keys(uiSchema).forEach(key => {
-    if (typeof key === 'string' && key.substring(0, 3) === 'ui:') {
+    if (typeof key === "string" && key.substring(0, 3) === "ui:") {
       topLevelUi[key] = uiSchema[key];
     }
   });
@@ -140,21 +160,21 @@ function getChildren(schema) {
     properties,
     // array
     items,
-    type,
+    type
   } = schema;
   if (!properties && !items) {
     return [];
   }
   let schemaSubs = {};
-  if (type === 'object') {
+  if (type === "object") {
     schemaSubs = properties;
   }
-  if (type === 'array') {
+  if (type === "array") {
     schemaSubs = items;
   }
   return Object.keys(schemaSubs).map(name => ({
     schema: schemaSubs[name],
-    name,
+    name
   }));
 }
 
@@ -166,8 +186,8 @@ export const isValidVariableName = param => /^[a-zA-Z]+$/g.test(param);
 // Remove all window valid api
 // For safety jest-* variable will throw error
 export function safeEval(code) {
-  let safeContextStr = '';
-  if (typeof window !== 'undefined') {
+  let safeContextStr = "";
+  if (typeof window !== "undefined") {
     const windowContextAttr = Object.getOwnPropertyNames(window).filter(
       isValidVariableName
     );
@@ -180,7 +200,6 @@ export function safeEval(code) {
 // alternative of eval
 export const parseString = string => safeEval(`return (${string})`);
 
-
 export const evaluateString = (string, formData, rootValue) =>
   safeEval(`
   const rootValue =${JSON.stringify(rootValue)};
@@ -191,16 +210,16 @@ export const evaluateString = (string, formData, rootValue) =>
 // if schema value is function
 // JSON can't use function, we use "{{...}}" to mark, or@ which is not recommended。
 export function isFunction(func) {
-  if (typeof func === 'function') {
+  if (typeof func === "function") {
     return true;
   }
-  if (typeof func === 'string' && func.substring(0, 1) === '@') {
+  if (typeof func === "string" && func.substring(0, 1) === "@") {
     return func.substring(1);
   }
   if (
-    typeof func === 'string' &&
-    func.substring(0, 2) === '{{' &&
-    func.substring(func.length - 2, func.length) === '}}'
+    typeof func === "string" &&
+    func.substring(0, 2) === "{{" &&
+    func.substring(func.length - 2, func.length) === "}}"
   ) {
     return func.substring(2, func.length - 2);
   }
@@ -210,11 +229,11 @@ export function isFunction(func) {
 // if there is a function in schema
 export function isFunctionSchema(schema) {
   return Object.keys(schema).some(key => {
-    if (typeof schema[key] === 'function') {
+    if (typeof schema[key] === "function") {
       return true;
-    } else if (typeof schema[key] === 'string') {
+    } else if (typeof schema[key] === "string") {
       return isFunction(schema[key]);
-    } else if (typeof schema[key] === 'object') {
+    } else if (typeof schema[key] === "object") {
       return isFunctionSchema(schema[key]);
     } else {
       return false;
@@ -227,4 +246,4 @@ function stringContains(str, text) {
 }
 
 export const isObj = a =>
-  stringContains(Object.prototype.toString.call(a), 'Object');
+  stringContains(Object.prototype.toString.call(a), "Object");

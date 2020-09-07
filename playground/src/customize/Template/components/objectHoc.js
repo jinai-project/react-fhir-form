@@ -3,13 +3,10 @@
  * listItemHoc
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { isFunction, evaluateString } from '../base/utils';
-import FoldIcon from './foldIcon';
-import { ObjDescriptionList, getObjDescription } from './descList';
-
-
+import React from "react";
+import PropTypes from "prop-types";
+import FoldIcon from "./foldIcon";
+import { ObjDescriptionList, getObjDescription } from "./descList";
 
 const objectDetailHoc = ButtonComponent =>
   class extends React.Component {
@@ -33,18 +30,19 @@ const objectDetailHoc = ButtonComponent =>
 
     render() {
       const { name, item, p = {}, fold } = this.props;
-      const descProps = { ...p};
-      const { options = {}, readonly, formData, value: rootValue } = p;
+      const descProps = { ...p };
+      const { options = {}, readonly } = p;
       const { foldable: canFold } = options;
       let { itemButtons } = options;
 
       //add border when it can fold
-      let setClass =
-        `fr-set ${canFold?'ba':''} b--black-10 hover-b--black-20 relative flex flex-column`;
+      let setClass = `fr-set ${
+        canFold ? "ba" : ""
+      } b--black-10 hover-b--black-20 relative flex flex-column`;
       if (canFold && fold) {
-        setClass += ' pv12';
-      } else if (p.displayType === 'row') {
-        setClass += ' pt44';
+        setClass += " pv12";
+      } else if (p.displayType === "row") {
+        setClass += " pt44";
       }
 
       return (
@@ -54,7 +52,7 @@ const objectDetailHoc = ButtonComponent =>
             <FoldIcon
               fold={fold}
               onClick={this.toggleFold}
-              style={{ position: 'absolute', top: 12, right: 32 }}
+              style={{ position: "absolute", top: 12, right: 32 }}
             />
           )}
           {!((canFold && fold) || readonly) && (
@@ -70,13 +68,13 @@ const objectDetailHoc = ButtonComponent =>
                       icon={btn.icon}
                       onClick={() => {
                         const value = [...p.value];
-                        if (typeof window[btn.callback] === 'function') {
+                        if (typeof window[btn.callback] === "function") {
                           const result = window[btn.callback](value, name); // eslint-disable-line
                           p.onChange(p.idSchema, result);
                         }
                       }}
                     >
-                      {btn.text || ''}
+                      {btn.text || ""}
                     </ButtonComponent>
                   );
                 })}
@@ -90,28 +88,27 @@ const objectDetailHoc = ButtonComponent =>
 const fieldHoc = ButtonComponent => {
   const ObjectDetail = objectDetailHoc(ButtonComponent);
   return class extends React.Component {
-
     render() {
       const { p, fold = true, toggleFoldItem } = this.props;
       const { options, extraButtons } = p || {};
       const buttons = options.buttons || extraButtons || [];
-      const { readonly, schema = {}, value = {} } = p;
+      const { readonly, schema = {} } = p;
       return (
         <div className="pl0 ma0">
-            <ObjectDetail
-              p={p}
-              fold={fold}
-              toggleFoldItem={toggleFoldItem}
-              item={p.objGetSubField({
-                name: 0,
-                value: p.value,
-                onChange(key, val) {
-                  const value = [...p.value];
-                  value[key] = val;
-                  p.onChange(p.idSchema, value);
-                },
-              })}
-            />
+          <ObjectDetail
+            p={p}
+            fold={fold}
+            toggleFoldItem={toggleFoldItem}
+            item={p.objGetSubField({
+              name: 0,
+              value: p.value,
+              onChange(key, val) {
+                const value = [...p.value];
+                value[key] = val;
+                p.onChange(p.idSchema, value);
+              }
+            })}
+          />
           {!readonly && (
             <div className="tr mb2">
               {buttons &&
@@ -124,11 +121,11 @@ const fieldHoc = ButtonComponent => {
                       icon={icon}
                       key={i.toString()}
                       onClick={() => {
-                        if (callback === 'clearAll') {
+                        if (callback === "clearAll") {
                           p.onChange(p.idSchema, []);
                           return;
                         }
-                        if (callback === 'copyLast') {
+                        if (callback === "copyLast") {
                           const value = [...p.value];
                           const lastIndex = value.length - 1;
                           value.push(
@@ -137,9 +134,10 @@ const fieldHoc = ButtonComponent => {
                           p.onChange(p.idSchema, value);
                           return;
                         }
-                        if (typeof window[callback] === 'function') {
+                        if (typeof window[callback] === "function") {
                           const value = [...p.value];
-                          const onChange = value => p.onChange(p.idSchema, value);
+                          const onChange = value =>
+                            p.onChange(p.idSchema, value);
                           window[callback](value, onChange, schema, p.newItem); // eslint-disable-line
                         }
                       }}
@@ -161,18 +159,18 @@ export default function objectHoc(ButtonComponent) {
   const ObjectField = fieldHoc(ButtonComponent);
   return class extends React.Component {
     static propTypes = {
-      value: PropTypes.object,
+      value: PropTypes.object
     };
 
     static defaultProps = {
-      value: {},
+      value: {}
     };
 
     constructor(props) {
       super(props);
 
       this.state = {
-        fold: true,
+        fold: true
       };
     }
 
@@ -180,7 +178,7 @@ export default function objectHoc(ButtonComponent) {
       let { fold = true } = this.state;
       fold = !fold;
       this.setState({
-        fold,
+        fold
       });
     };
 
@@ -195,7 +193,7 @@ export default function objectHoc(ButtonComponent) {
           useDragHandle
           helperClass="fr-sort-help-class"
           shouldCancelStart={e =>
-            e.toElement && e.toElement.className === 'fr-tooltip-container'
+            e.toElement && e.toElement.className === "fr-tooltip-container"
           }
         />
       );

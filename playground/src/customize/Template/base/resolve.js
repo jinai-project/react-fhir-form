@@ -1,41 +1,39 @@
-import { clone, isFunction } from './utils';
-
+import { clone, isFunction } from "./utils";
 
 function getDefaultValue({ default: def, enum: enums = [], type }) {
   const defaultValue = {
     array: [],
     boolean: false,
-    integer: '',
+    integer: "",
     null: null,
-    number: '',
+    number: "",
     object: {},
-    string: '',
-    range: null,
+    string: "",
+    range: null
   };
 
   if (isFunction(def)) {
     return defaultValue[type];
   }
   if (isFunction(enums)) {
-    if (type === 'array') {
+    if (type === "array") {
       return [];
     }
-    if (type === 'string' || type === 'number') {
-      return '';
+    if (type === "string" || type === "number") {
+      return "";
     }
   }
 
   // if a default is set, use default
-  if (typeof def !== 'undefined') {
+  if (typeof def !== "undefined") {
     return def;
   }
   // when it's array and enum, which means multiselect, default value[]
-  if (type === 'array' && enums.length) {
+  if (type === "array" && enums.length) {
     return [];
   }
-  
 
-  if (Array.isArray(enums) && enums[0] && typeof enums[0] !== 'undefined') {
+  if (Array.isArray(enums) && enums[0] && typeof enums[0] !== "undefined") {
     return enums[0];
   }
   // use default basic type
@@ -44,7 +42,6 @@ function getDefaultValue({ default: def, enum: enums = [], type }) {
 
 function resolve(schema, data, options = {}) {
   const {
-
     type,
 
     properties,
@@ -53,20 +50,17 @@ function resolve(schema, data, options = {}) {
 
     default: def,
     required = [],
-    'ui:widget': widget,
+    "ui:widget": widget
   } = schema;
-  const {
-
-    checkRequired = false,
-  } = options;
+  const { checkRequired = false } = options;
 
   const value =
-    typeof data === 'undefined' ? getDefaultValue(schema) : clone(data);
+    typeof data === "undefined" ? getDefaultValue(schema) : clone(data);
 
-  if (type === 'object') {
+  if (type === "object") {
     // custom widget
     if (widget) {
-      if (def && typeof def === 'object') {
+      if (def && typeof def === "object") {
         return def;
       }
       return value;
@@ -82,13 +76,15 @@ function resolve(schema, data, options = {}) {
     });
     return ret;
   }
-  if (type === 'array') {
+  if (type === "array") {
     // no value and has default, use default
     if (def && Array.isArray(def) && !value) {
       return def;
     }
     // custom widget
-    if (widget) return value;
+    if (widget) {
+      return value;
+    }
 
     const subs = [].concat(items || []);
     const ret = [];

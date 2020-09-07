@@ -375,4 +375,4 @@ export default `
 .fr-wrapper .link { color: #1890ff; font-size: 14px; }
 .fr-wrapper .link:hover { color: #40a9ff; font-size: 14px; }
 /* .fr-wrapper .link:hover { color: #3e71f7; font-size: 14px; } */
-`
+`;

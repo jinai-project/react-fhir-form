@@ -5,11 +5,11 @@ import "react-app-polyfill/ie11";
 // import Form, { withTheme } from "@rjsf/core";
 import Form, { withTheme } from "@jinai/rjsf-core";
 import DemoFrame from "./DemoFrame";
-import CustomArrayFieldTemplate from "./customize/Template/widgets/list"
-import CustomObjectFieldTemplate from "./customize/Template/widgets/object"
-import JsonPointer from 'jsonpointer'
-import atomCss from './customize/style/atom.js';
-import indexCss from './customize/style/index.js';
+import CustomArrayFieldTemplate from "./customize/Template/widgets/list";
+import CustomObjectFieldTemplate from "./customize/Template/widgets/object";
+import JsonPointer from "jsonpointer";
+import atomCss from "./customize/style/atom.js.js";
+import indexCss from "./customize/style/index.js.js";
 
 // deepEquals and shouldRender and isArguments are copied from rjsf-core. TODO: unify these utility functions.
 
@@ -109,15 +109,15 @@ const liveSettingsSchema = {
     omitExtraData: { type: "boolean", title: "Omit extra data" },
     liveOmit: { type: "boolean", title: "Live omit" },
     inlineField: { type: "boolean", title: "Inline field" },
-    descriptionAsTooltip: { type: "boolean", title: "Description as tooltip" },
-  },
+    descriptionAsTooltip: { type: "boolean", title: "Description as tooltip" }
+  }
 };
 
 const monacoEditorOptions = {
   minimap: {
-    enabled: false,
+    enabled: false
   },
-  automaticLayout: true,
+  automaticLayout: true
 };
 
 class GeoPosition extends Component {
@@ -250,7 +250,8 @@ class Selector extends Component {
             <li
               key={i}
               role="presentation"
-              className={this.state.current === label ? "active" : ""}>
+              className={this.state.current === label ? "active" : ""}
+            >
               <a href="#" onClick={this.onLabelClick(label)}>
                 {label}
               </a>
@@ -265,10 +266,10 @@ class Selector extends Component {
 function ThemeSelector({ theme, themes, select }) {
   const schema = {
     type: "string",
-    enum: Object.keys(themes),
+    enum: Object.keys(themes)
   };
   const uiSchema = {
-    "ui:placeholder": "Select theme",
+    "ui:placeholder": "Select theme"
   };
   return (
     <Form
@@ -279,7 +280,8 @@ function ThemeSelector({ theme, themes, select }) {
       formData={theme}
       onChange={({ formData }) =>
         formData && select(formData, themes[formData])
-      }>
+      }
+    >
       <div />
     </Form>
   );
@@ -288,10 +290,10 @@ function ThemeSelector({ theme, themes, select }) {
 function SubthemeSelector({ subtheme, subthemes, select }) {
   const schema = {
     type: "string",
-    enum: Object.keys(subthemes),
+    enum: Object.keys(subthemes)
   };
   const uiSchema = {
-    "ui:placeholder": "Select subtheme",
+    "ui:placeholder": "Select subtheme"
   };
   return (
     <Form
@@ -302,7 +304,8 @@ function SubthemeSelector({ subtheme, subthemes, select }) {
       formData={subtheme}
       onChange={({ formData }) =>
         formData && select(formData, subthemes[formData])
-      }>
+      }
+    >
       <div />
     </Form>
   );
@@ -335,7 +338,8 @@ class CopyLink extends Component {
           <button
             className="btn btn-default"
             type="button"
-            onClick={this.onCopyClick}>
+            onClick={this.onCopyClick}
+          >
             <i className="glyphicon glyphicon-copy" />
           </button>
         </span>
@@ -366,10 +370,10 @@ class Playground extends Component {
         omitExtraData: false,
         liveOmit: false,
         inlineField: false,
-        descriptionAsTooltip: false,
+        descriptionAsTooltip: false
       },
       shareURL: null,
-      FormComponent: withTheme({}),
+      FormComponent: withTheme({})
     };
   }
 
@@ -413,12 +417,25 @@ class Playground extends Component {
   }
 
   customFieldTemplate(props) {
-    const {id, classNames, label, help, required, description, errors, children} = props;
-    if (label && label[0] === '_' )
-      return null
+    const {
+      id,
+      classNames,
+      label,
+      help,
+      required,
+      description,
+      errors,
+      children
+    } = props;
+    if (label && label[0] === "_") {
+      return null;
+    }
     return (
       <div className={classNames}>
-        <label htmlFor={id}>{label}{required ? "*" : null}</label>
+        <label htmlFor={id}>
+          {label}
+          {required ? "*" : null}
+        </label>
         {description}
         {children}
         {errors}
@@ -430,17 +447,25 @@ class Playground extends Component {
   descriptionAsTooltipWidget({ description }) {
     return description ? (
       <b title={description} style={{ cursor: "pointer" }}>
-        {" "}&#x1f6c8;{" "}
+        {" "}
+        &#x1f6c8;{" "}
       </b>
     ) : null;
   }
 
   ArrayFieldTemplate(props) {
-
     return (
       <div>
         {props.items.map(element => element.children)}
-        {props.canAdd && <button type="button" class="btn btn-danger" onClick={props.onAddClick}>clickme</button>}
+        {props.canAdd && (
+          <button
+            type="button"
+            class="btn btn-danger"
+            onClick={props.onAddClick}
+          >
+            clickme
+          </button>
+        )}
       </div>
     );
   }
@@ -451,7 +476,7 @@ class Playground extends Component {
       FieldTemplate,
       ArrayFieldTemplate,
       ObjectFieldTemplate,
-      extraErrors,
+      extraErrors
     } = data;
     // uiSchema is missing on some examples. Provide a default to
     // clear the field in all cases.
@@ -470,7 +495,7 @@ class Playground extends Component {
         ArrayFieldTemplate,
         ObjectFieldTemplate,
         uiSchema,
-        extraErrors,
+        extraErrors
       })
     );
   };
@@ -493,14 +518,14 @@ class Playground extends Component {
       subthemes,
       subtheme: null,
       FormComponent: withTheme(themeObj),
-      stylesheet,
+      stylesheet
     });
   };
 
   onSubthemeSelected = (subtheme, { stylesheet }) => {
     this.setState({
       subtheme,
-      stylesheet,
+      stylesheet
     });
   };
 
@@ -517,7 +542,7 @@ class Playground extends Component {
     if (needReset) {
       this.setState({ form: false }, () =>
         this.setState({
-          form: true,
+          form: true
         })
       );
     }
@@ -525,7 +550,7 @@ class Playground extends Component {
 
   onFormDataChange = ({ formData }) => {
     this.setState({ formData, shareURL: null });
-  }
+  };
 
   onShare = () => {
     const {
@@ -534,10 +559,10 @@ class Playground extends Component {
       uiSchema,
       liveSettings,
       errorSchema,
-      theme,
+      theme
     } = this.state;
     const {
-      location: { origin, pathname },
+      location: { origin, pathname }
     } = document;
     try {
       const hash = btoa(
@@ -547,7 +572,7 @@ class Playground extends Component {
           uiSchema,
           theme,
           liveSettings,
-          errorSchema,
+          errorSchema
         })
       );
       this.setState({ shareURL: `${origin}${pathname}#${hash}` });
@@ -570,23 +595,22 @@ class Playground extends Component {
       ArrayFieldTemplate,
       ObjectFieldTemplate,
       FieldTemplate,
-      transformErrors,
+      transformErrors
     } = this.state;
 
     const { themes } = this.props;
 
     let fields = { geo: GeoPosition };
     let formContext = {
-      onChange: (idSchema, value) => { 
-
-        const { formData } = this.state
+      onChange: (idSchema, value) => {
+        const { formData } = this.state;
         let newFormData = JSON.parse(JSON.stringify(formData));
-        let path = ''
-        let idx = idSchema.$id.indexOf('_')
+        let path = "";
+        let idx = idSchema.$id.indexOf("_");
         if (idx === -1) {
-          path = '/'
+          path = "/";
         } else {
-          path = idSchema.$id.slice(idx).replace(/_/g, '/')
+          path = idSchema.$id.slice(idx).replace(/_/g, "/");
         }
 
         JsonPointer.set(newFormData, path, value);
@@ -599,11 +623,11 @@ class Playground extends Component {
         formContext = {
           ...formContext,
           labelCol: {
-            span: 4,
+            span: 4
           },
           wrapperCol: {
-            span: 20,
-          },
+            span: 20
+          }
         };
       } else {
         templateProps.FieldTemplate = this.inlineFieldTemplate;
@@ -613,9 +637,9 @@ class Playground extends Component {
       fields.DescriptionField = this.descriptionAsTooltipWidget;
     }
     // templateProps.FieldTemplate = this.customFieldTemplate;
-    // if (ArrayFieldTemplate) {
-    //   templateProps.ArrayFieldTemplate = ArrayFieldTemplate;
-    // }
+    if (ArrayFieldTemplate) {
+      templateProps.ArrayFieldTemplate = ArrayFieldTemplate;
+    }
     templateProps.ArrayFieldTemplate = CustomArrayFieldTemplate;
     templateProps.ObjectFieldTemplate = CustomObjectFieldTemplate;
     // templateProps.ArrayFieldTemplate = this.ArrayFieldTemplate;
@@ -635,7 +659,7 @@ class Playground extends Component {
     return (
       <div className="container-fluid">
         <div className="page-header">
-          <h1>react-fhir-form</h1>
+          <h1>react-jsonschema-form</h1>
           <div className="row">
             <div className="col-sm-8">
               <Selector onSelected={this.load} />
@@ -645,7 +669,8 @@ class Playground extends Component {
                 idPrefix="rjsf_options"
                 schema={liveSettingsSchema}
                 formData={liveSettings}
-                onChange={this.setLiveSettings}>
+                onChange={this.setLiveSettings}
+              >
                 <div />
               </Form>
             </div>
@@ -716,7 +741,7 @@ class Playground extends Component {
                     <div
                       dangerouslySetInnerHTML={{
                         __html: document.getElementById("antd-styles-iframe")
-                          .contentDocument.head.innerHTML,
+                          .contentDocument.head.innerHTML
                       }}
                     />
                   )}
@@ -725,37 +750,38 @@ class Playground extends Component {
               style={{
                 width: "100%",
                 height: 1000,
-                border: 0,
+                border: 0
               }}
-              theme={theme}>
-              <div className='fr-wrapper' style={{padding: '0px 12px'}}>
-              <FormComponent
-                {...templateProps}
-                liveValidate={liveSettings.validate}
-                disabled={liveSettings.disable}
-                omitExtraData={liveSettings.omitExtraData}
-                liveOmit={liveSettings.liveOmit}
-                schema={schema}
-                uiSchema={uiSchema}
-                formData={formData}
-                onChange={this.onFormDataChange}
-                noHtml5Validate={true}
-                onSubmit={({ formData }, e) => {
-                  console.log("submitted formData", formData);
-                  console.log("submit event", e);
-                }}
-                fields={fields}
-                validate={validate}
-                onBlur={(id, value) =>
-                  console.log(`Touched ${id} with value ${value}`)
-                }
-                onFocus={(id, value) =>
-                  console.log(`Focused ${id} with value ${value}`)
-                }
-                transformErrors={transformErrors}
-                onError={log("errors")}
-                formContext={formContext}
-              />
+              theme={theme}
+            >
+              <div className="fr-wrapper" style={{ padding: "0px 12px" }}>
+                <FormComponent
+                  {...templateProps}
+                  liveValidate={liveSettings.validate}
+                  disabled={liveSettings.disable}
+                  omitExtraData={liveSettings.omitExtraData}
+                  liveOmit={liveSettings.liveOmit}
+                  schema={schema}
+                  uiSchema={uiSchema}
+                  formData={formData}
+                  onChange={this.onFormDataChange}
+                  noHtml5Validate={true}
+                  onSubmit={({ formData }, e) => {
+                    console.log("submitted formData", formData);
+                    console.log("submit event", e);
+                  }}
+                  fields={fields}
+                  validate={validate}
+                  onBlur={(id, value) =>
+                    console.log(`Touched ${id} with value ${value}`)
+                  }
+                  onFocus={(id, value) =>
+                    console.log(`Focused ${id} with value ${value}`)
+                  }
+                  transformErrors={transformErrors}
+                  onError={log("errors")}
+                  formContext={formContext}
+                />
               </div>
             </DemoFrame>
           )}

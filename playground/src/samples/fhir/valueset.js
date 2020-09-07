@@ -9,7 +9,7 @@ valueset.type = "object";
 //     delete valueset.properties[propertyName]
 //   }
 // }
-// console.log(valueset);
+console.log(valueset);
 // valueset.properties = {
 //     firstName: {
 //         type: "string",
@@ -40,10 +40,10 @@ valueset.type = "object";
 //       },
 // }
 valueset.definitions = fhirschema.definitions;
-// console.log(valueset);
+console.log(valueset);
 delete valueset.definitions.ValueSet;
 export default {
   schema: valueset,
   uiSchema: {},
-  formData: {},
+  formData: {}
 };
