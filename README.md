@@ -12,7 +12,7 @@
 
 
 - [Introduction](docs/Introduction.md)
-- <a href="https://jinai-project.github.io/react-fhir-form/" target="_blank">Playground</a> / <a href="https://codesandbox.io/s/form-renderjichudemo-8k1l5" target="_blank">Code Sandbox</a>
+- <a href="https://jinai-project.github.io/react-fhir-form/" target="_blank">Playground</a> / <a href="https://codesandbox.io/s/react-fhir-form-mgc0b" target="_blank">Code Sandbox</a>
 - [Usedby](docs/Usedby.md)
 - <a href="https://github.com/jinai-project/react-fhir-form/projects/1" target="_blank">Roadmap</a>
 
@@ -41,7 +41,7 @@ const uiSchema = {
 ```
 
 ### onChange
-A callback when the content of ArrayFieldTemplate got changed. Can be passed to Form component. We can change and set the formData here.
+A callback when the content of ArrayFieldTemplate got changed. Pass formContext to Form to use. We can change and set the formData here.
 ```
 let formContext = {
   onChange: (idSchema, value) => {
