@@ -8,8 +8,8 @@ import DemoFrame from "./DemoFrame";
 import CustomArrayFieldTemplate from "./customize/Template/widgets/list";
 import CustomObjectFieldTemplate from "./customize/Template/widgets/object";
 import JsonPointer from "jsonpointer";
-import atomCss from "./customize/style/atom.js.js";
-import indexCss from "./customize/style/index.js.js";
+import atomCss from "./customize/style/atom.js";
+import indexCss from "./customize/style/index.js";
 
 // deepEquals and shouldRender and isArguments are copied from rjsf-core. TODO: unify these utility functions.
 
@@ -659,7 +659,7 @@ class Playground extends Component {
     return (
       <div className="container-fluid">
         <div className="page-header">
-          <h1>react-jsonschema-form</h1>
+          <h1>react-fhir-form</h1>
           <div className="row">
             <div className="col-sm-8">
               <Selector onSelected={this.load} />

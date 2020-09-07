@@ -125,8 +125,8 @@ module.exports = {
         }
       },
       arrDemo: {
-        title: "对象数组",
-        description: "对象数组嵌套功能",
+        title: "object array",
+        description: "nested object array",
         type: "array",
         minItems: 1,
         maxItems: 3,
@@ -134,13 +134,13 @@ module.exports = {
           type: "object",
           properties: {
             num: {
-              title: "数字参数",
-              description: "number类型",
+              title: "number",
+              description: "number type",
               type: "number"
             },
             name: {
-              title: "字符名称",
-              description: "string类型",
+              title: "name",
+              description: "string type",
               type: "string",
               pattern: "^[A-Za-z0-9]+$"
             }
