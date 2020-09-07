@@ -691,7 +691,7 @@ class Playground extends Component {
             </div>
           </div>
         </div>
-        <div className="col-sm-7">
+        <div className="col-sm-6">
           <Editor
             title="JSONSchema"
             code={toJson(schema)}
@@ -725,7 +725,7 @@ class Playground extends Component {
             </div>
           )}
         </div>
-        <div className="col-sm-5">
+        <div className="col-sm-6">
           {this.state.form && (
             <DemoFrame
               head={

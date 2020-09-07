@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "build"),
     filename: "bundle.js",
-    publicPath: process.env.SHOW_NETLIFY_BADGE ? "": "/react-jsonschema-form/"
+    publicPath: process.env.SHOW_NETLIFY_BADGE ? "": "/react-fhir-form/"
   },
   plugins: [
     new MonacoWebpackPlugin({
