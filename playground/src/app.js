@@ -513,6 +513,13 @@ class Playground extends Component {
     theme,
     { subthemes, stylesheet, theme: themeObj } = {}
   ) => {
+    // conflict with our components
+    if (themeObj.fields && themeObj.fields.SchemaField) {
+      delete themeObj.fields.SchemaField;
+    }
+    if (themeObj.fields && themeObj.fields.ArrayField) {
+      delete themeObj.fields.ArrayField;
+    }
     this.setState({
       theme,
       subthemes,
@@ -636,14 +643,9 @@ class Playground extends Component {
     if (liveSettings.descriptionAsTooltip) {
       fields.DescriptionField = this.descriptionAsTooltipWidget;
     }
-    // templateProps.FieldTemplate = this.customFieldTemplate;
     if (ArrayFieldTemplate) {
       templateProps.ArrayFieldTemplate = ArrayFieldTemplate;
     }
-    templateProps.ArrayFieldTemplate = CustomArrayFieldTemplate;
-    templateProps.ObjectFieldTemplate = CustomObjectFieldTemplate;
-    // templateProps.ArrayFieldTemplate = this.ArrayFieldTemplate;
-
     if (ObjectFieldTemplate) {
       templateProps.ObjectFieldTemplate = ObjectFieldTemplate;
     }
@@ -653,7 +655,8 @@ class Playground extends Component {
     if (extraErrors) {
       templateProps.extraErrors = extraErrors;
     }
-
+    templateProps.ArrayFieldTemplate = CustomArrayFieldTemplate;
+    templateProps.ObjectFieldTemplate = CustomObjectFieldTemplate;
     // console.log(formContext);
 
     return (
