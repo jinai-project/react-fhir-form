@@ -19,13 +19,6 @@ patient.type = "object";
 patient.definitions = fhirschema.definitions;
 delete patient.definitions.Patient;
 
-const uiSchema = {
-  meta: {
-    "ui:options": {
-      foldable: true
-    }
-  }
-};
 const formData = {
   resourceType: "Patient",
   id: "example",
@@ -181,6 +174,6 @@ const formData = {
 };
 export default {
   schema: patient,
-  uiSchema: uiSchema,
+  uiSchema: {},
   formData: formData
 };
